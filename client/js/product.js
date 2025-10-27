@@ -1,4 +1,4 @@
-const CART_KEY = 'kapada_cart_v1';
+const CART_KEY = 'vibewear_cart_v1';
 
 // format price
 function formatPrice(v) {

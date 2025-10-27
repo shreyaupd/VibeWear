@@ -1,5 +1,5 @@
 // cart.js - show cart, adjust qty, and call checkout API
-const CART_KEY = 'kapada_cart_v1';
+const CART_KEY = 'vibewear_cart_v1';
 const API_BASE = 'http://localhost:4000/api';
 
 const cartContainer = document.querySelector('.cart-items');
@@ -27,18 +27,19 @@ function renderCart() {
 
   cart.forEach(item => {
     const row = document.createElement('div');
-    row.innerHTML = `
-      <div style="flex:1">
-        <strong>${escapeHtml(item.name)}</strong>
-        <div style="color:var(--muted); font-size:.95rem">$${Number(item.price).toFixed(2)}</div>
-      </div>
-      <div style="display:flex; gap:.4rem; align-items:center">
-        <button data-action="dec" data-id="${item.id}">-</button>
-        <div style="min-width:22px; text-align:center">${item.qty}</div>
-        <button data-action="inc" data-id="${item.id}">+</button>
-        <button data-action="remove" data-id="${item.id}">Remove</button>
-      </div>
-    `;
+  row.innerHTML = `
+  <div style="flex:1">
+    <strong>${escapeHtml(item.name)}</strong>
+    <div style=" font-size:.95rem">$${Number(item.price).toFixed(2)}</div>
+  </div>
+  <div style="display:flex; gap:.4rem; align-items:center">
+    <button data-action="dec" data-id="${item.id}" class="cart-btn small">-</button>
+    <div style="min-width:22px; text-align:center">${item.qty}</div>
+    <button data-action="inc" data-id="${item.id}" class="cart-btn small">+</button>
+    <button data-action="remove" data-id="${item.id}" class="cart-btn remove">Remove</button>
+  </div>
+`;
+
     cartContainer.appendChild(row);
   });
 
