@@ -1,10 +1,11 @@
-const productsContainer = document.getElementById('products');
 const CART_KEY = 'kapada_cart_v1';
 
+// format price
 function formatPrice(v) {
   return `$${Number(v).toFixed(2)}`;
 }
 
+// render a single product card
 function renderProductCard(product) {
   const card = document.createElement('div');
   card.className = 'product-card';
@@ -34,25 +35,28 @@ function renderProductCard(product) {
   return card;
 }
 
-function loadProducts() {
-  productsContainer.innerHTML = 'Loading products...';
-  fetch('https://fakestoreapi.com/products')
+// main loader function: takes container, category, loading message
+function loadProducts(containerId, category, loadingMessage) {
+  const productsContainer = document.getElementById(containerId);
+  if (!productsContainer) return;
+
+  productsContainer.innerHTML = loadingMessage;
+
+  let url;
+  if (category === 'men') url = "https://fakestoreapi.com/products/category/men's clothing";
+  else if (category === 'women') url = "https://fakestoreapi.com/products/category/women's clothing";
+  else url = 'https://fakestoreapi.com/products'; // fallback: all products
+
+  fetch(url)
     .then(res => res.json())
     .then(products => {
-      const clothes = products.filter(
-  p => p.category === "men's clothing" || p.category === "women's clothing"
-);
-
-      
       productsContainer.innerHTML = '';
       const fragment = document.createDocumentFragment();
-      clothes.forEach(product => fragment.append(renderProductCard(product)));
+      products.forEach(product => fragment.append(renderProductCard(product)));
       productsContainer.appendChild(fragment);
     })
     .catch(err => {
       console.error('Error fetching products:', err);
-      productsContainer.textContent = 'Failed to load products';
+      productsContainer.textContent = 'Failed to load products.';
     });
 }
-
-document.addEventListener('DOMContentLoaded', loadProducts);
